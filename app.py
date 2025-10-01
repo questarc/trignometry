@@ -1,17 +1,10 @@
 import streamlit as st
 
-# Import trig page functions (excluding trig_vr_environments to avoid ImportError)
+# Import only basic, likely existing page functions to avoid ModuleNotFoundError
 from pages.trig_encyclopedia import show_trig_encyclopedia
 from pages.trig_calculator import show_trig_calculator
 from pages.trig_quiz import show_trig_quiz
 from pages.trig_real_world import show_trig_real_world
-from pages.trig_ar_unit_circle import show_trig_ar_unit_circle
-from pages.trig_story_creator import show_trig_story_creator
-from pages.trig_clinometer import show_trig_clinometer
-from pages.trig_puzzles_games import show_trig_puzzles_games
-from pages.trig_spinner_sketcher import show_trig_spinner_sketcher
-from pages.trig_radian_crafts import show_trig_radian_crafts
-from pages.trig_motion_waves import show_trig_motion_waves
 from pages.geometry import show_geometry_page
 
 # Initialize session state for navigation
@@ -43,21 +36,14 @@ for icon_label, category in categories.items():
         elif category != "Trigonometry":
             st.session_state.pop('trig_page', None)  # Clear trig_page when not in Trigonometry
 
-# Trigonometry Sub-Navigation (excluding VR Environments)
+# Simplified Trigonometry Sub-Navigation (only basic pages to avoid errors)
 if st.session_state.category == "Trigonometry":
     st.sidebar.header("Trigonometry Tools")
     trig_pages = {
         "📚 Encyclopedia": "Encyclopedia",
         "🧮 Trig Calculator": "Trig Calculator",
         "❓ Quiz": "Quiz",
-        "🌍 Real-World Applications": "Real-World Applications",
-        "🔄 AR Unit Circle": "AR Unit Circle",
-        "📖 Story Creator": "Story Creator",
-        "📏 Clinometer Simulator": "Clinometer Simulator",
-        "🧩 Puzzles & Games": "Puzzles & Games",
-        "🎡 Spinner & Sketcher": "Spinner & Sketcher",
-        "🎨 Radian Crafts": "Radian Crafts",
-        "🚀 Motion & Waves": "Motion & Waves"
+        "🌍 Real-World Applications": "Real-World Applications"
     }
     for icon_label, page_name in trig_pages.items():
         if st.sidebar.button(icon_label, key=f"trig_{page_name.replace(' ', '_')}"):
@@ -81,14 +67,7 @@ elif st.session_state.category == "Trigonometry":
         "Encyclopedia": show_trig_encyclopedia,
         "Trig Calculator": show_trig_calculator,
         "Quiz": show_trig_quiz,
-        "Real-World Applications": show_trig_real_world,
-        "AR Unit Circle": show_trig_ar_unit_circle,
-        "Story Creator": show_trig_story_creator,
-        "Clinometer Simulator": show_trig_clinometer,
-        "Puzzles & Games": show_trig_puzzles_games,
-        "Spinner & Sketcher": show_trig_spinner_sketcher,
-        "Radian Crafts": show_trig_radian_crafts,
-        "Motion & Waves": show_trig_motion_waves
+        "Real-World Applications": show_trig_real_world
     }
     
     if current_page in page_functions:
