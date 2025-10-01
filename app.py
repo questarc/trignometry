@@ -1,12 +1,11 @@
 import streamlit as st
 
-# Import trig page functions
+# Import trig page functions (excluding trig_vr_environments to avoid ImportError)
 from pages.trig_encyclopedia import show_trig_encyclopedia
 from pages.trig_calculator import show_trig_calculator
 from pages.trig_quiz import show_trig_quiz
 from pages.trig_real_world import show_trig_real_world
 from pages.trig_ar_unit_circle import show_trig_ar_unit_circle
-from pages.trig_vr_environments import show_trig_vr_environments
 from pages.trig_story_creator import show_trig_story_creator
 from pages.trig_clinometer import show_trig_clinometer
 from pages.trig_puzzles_games import show_trig_puzzles_games
@@ -44,7 +43,7 @@ for icon_label, category in categories.items():
         elif category != "Trigonometry":
             st.session_state.pop('trig_page', None)  # Clear trig_page when not in Trigonometry
 
-# Trigonometry Sub-Navigation
+# Trigonometry Sub-Navigation (excluding VR Environments)
 if st.session_state.category == "Trigonometry":
     st.sidebar.header("Trigonometry Tools")
     trig_pages = {
@@ -53,7 +52,6 @@ if st.session_state.category == "Trigonometry":
         "❓ Quiz": "Quiz",
         "🌍 Real-World Applications": "Real-World Applications",
         "🔄 AR Unit Circle": "AR Unit Circle",
-        "🌐 VR Environments": "VR Environments",
         "📖 Story Creator": "Story Creator",
         "📏 Clinometer Simulator": "Clinometer Simulator",
         "🧩 Puzzles & Games": "Puzzles & Games",
@@ -85,7 +83,6 @@ elif st.session_state.category == "Trigonometry":
         "Quiz": show_trig_quiz,
         "Real-World Applications": show_trig_real_world,
         "AR Unit Circle": show_trig_ar_unit_circle,
-        "VR Environments": show_trig_vr_environments,
         "Story Creator": show_trig_story_creator,
         "Clinometer Simulator": show_trig_clinometer,
         "Puzzles & Games": show_trig_puzzles_games,
