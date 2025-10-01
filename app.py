@@ -40,7 +40,9 @@ for icon_label, category in categories.items():
     if st.sidebar.button(icon_label, key=f"category_{category}"):
         st.session_state.category = category
         if category == "Trigonometry":
-            st.session_state.trig_page = "Encyclopedia"  # Default to Encyclopedia when Trigonometry is selected
+            st.session_state.trig_page = "Encyclopedia"  # Default to Encyclopedia
+        elif category != "Trigonometry":
+            st.session_state.pop('trig_page', None)  # Clear trig_page when not in Trigonometry
 
 # Trigonometry Sub-Navigation
 if st.session_state.category == "Trigonometry":
@@ -95,7 +97,8 @@ elif st.session_state.category == "Trigonometry":
     if current_page in page_functions:
         page_functions[current_page]()
     else:
-        st.error("Selected page not found. Please choose a Trigonometry tool from the sidebar.")
+        st.error(f"Page '{current_page}' not found. Please select a Trigonometry tool from the sidebar.")
 
 elif st.session_state.category == "Geometry":
+    st.header("Geometry")
     show_geometry_page()
