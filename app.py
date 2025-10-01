@@ -7,9 +7,12 @@ import plotly.graph_objects as go
 import io
 from PIL import Image, ImageDraw
 import base64
-import reportlab
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+
+# Initialize session state for page navigation
+if 'page' not in st.session_state:
+    st.session_state.page = "Encyclopedia"
 
 # App Title
 st.title("Innovative Trig App: Trigonometry Visualizer for High Schoolers")
@@ -18,14 +21,29 @@ Welcome to the Innovative Trig App! This app is designed to make trigonometry fu
 Explore concepts like a trigonometry encyclopedia, use the calculator to verify your homework, test your knowledge with quizzes, discover real-world applications, and engage with creative visualizations.
 """)
 
-# Sidebar Navigation
-page = st.sidebar.selectbox("Navigate", [
-    "Encyclopedia", "Trig Calculator", "Quiz", "Real-World Applications",
-    "AR Unit Circle", "VR Environments", "Story Creator", "Clinometer Simulator",
-    "Puzzles & Games", "Spinner & Sketcher", "Radian Crafts", "Motion & Waves"
-])
+# Sidebar Navigation with Icons
+st.sidebar.header("Navigation")
+pages = {
+    "📚 Encyclopedia": "Encyclopedia",
+    "🧮 Trig Calculator": "Trig Calculator",
+    "❓ Quiz": "Quiz",
+    "🌍 Real-World Applications": "Real-World Applications",
+    "🔄 AR Unit Circle": "AR Unit Circle",
+    "🌐 VR Environments": "VR Environments",
+    "📖 Story Creator": "Story Creator",
+    "📏 Clinometer Simulator": "Clinometer Simulator",
+    "🧩 Puzzles & Games": "Puzzles & Games",
+    "🎡 Spinner & Sketcher": "Spinner & Sketcher",
+    "🎨 Radian Crafts": "Radian Crafts",
+    "🚀 Motion & Waves": "Motion & Waves"
+}
 
-if page == "Encyclopedia":
+for icon_label, page_name in pages.items():
+    if st.sidebar.button(icon_label, key=page_name):
+        st.session_state.page = page_name
+
+# Page Rendering
+if st.session_state.page == "Encyclopedia":
     st.header("Trigonometry Encyclopedia")
     st.markdown("""
     This section covers key trigonometry concepts with explanations, formulas, and colorful visualizations. Use the expander sections below to dive in!
@@ -187,7 +205,7 @@ if page == "Encyclopedia":
         ### Visualization: Triangle Solver in Calculator
         """)
 
-elif page == "Trig Calculator":
+elif st.session_state.page == "Trig Calculator":
     st.header("Trig Calculator")
     st.markdown("Use this tool to calculate trig values or solve triangles. Verify your homework here!")
 
@@ -225,7 +243,7 @@ elif page == "Trig Calculator":
             - Angle A: {angle_a:.4f}°
             """)
 
-elif page == "Quiz":
+elif st.session_state.page == "Quiz":
     st.header("Trigonometry Quiz")
     st.markdown("Test your knowledge with these multiple-choice questions!")
 
@@ -266,7 +284,7 @@ elif page == "Quiz":
     if st.button("Show Score"):
         st.markdown(f"Your score: {score}/{len(questions)}")
 
-elif page == "Real-World Applications":
+elif st.session_state.page == "Real-World Applications":
     st.header("Real-World Applications of Trigonometry")
     st.markdown("""
     Trigonometry isn't just for math class—it's used everywhere in the real world! This section explores how trig helps in various fields. 
@@ -381,7 +399,7 @@ elif page == "Real-World Applications":
         **Example:** Using theodolites to measure angles and calculate areas.
         """)
 
-elif page == "AR Unit Circle":
+elif st.session_state.page == "AR Unit Circle":
     st.header("AR-Style Unit Circle Simulator")
     st.markdown("""
     Drag the angle arm to explore the unit circle interactively. Watch sine, cosine, and tangent update in real-time, along with the corresponding wave graphs.
@@ -413,7 +431,7 @@ elif page == "AR Unit Circle":
     fig_wave.update_layout(title="Sine Wave", xaxis_title="Angle (radians)", yaxis_title="Value")
     st.plotly_chart(fig_wave)
 
-elif page == "VR Environments":
+elif st.session_state.page == "VR Environments":
     st.header("VR-Inspired Virtual Environments")
     st.markdown("""
     Solve trig challenges in a virtual world! Calculate the height of a tower by entering the angle of elevation and distance.
@@ -439,7 +457,7 @@ elif page == "VR Environments":
         ax_vr.axis('off')
         st.pyplot(fig_vr)
 
-elif page == "Story Creator":
+elif st.session_state.page == "Story Creator":
     st.header("Digital Storytelling Project Builder")
     st.markdown("""
     Upload a photo of a real-life scenario (e.g., a slide or shadow), draw a triangle, and calculate trig values. Download your story as a PDF.
@@ -489,7 +507,7 @@ elif page == "Story Creator":
             pdf_buffer.seek(0)
             st.download_button("Download Story PDF", pdf_buffer, "story.pdf", "application/pdf")
 
-elif page == "Clinometer Simulator":
+elif st.session_state.page == "Clinometer Simulator":
     st.header("Clinometer and Measurement Simulator")
     st.markdown("""
     Simulate using a clinometer to measure heights. Enter an angle and distance to calculate the height of an object.
@@ -513,7 +531,7 @@ elif page == "Clinometer Simulator":
     ax_clino.axis('off')
     st.pyplot(fig_clino)
 
-elif page == "Puzzles & Games":
+elif st.session_state.page == "Puzzles & Games":
     st.header("Puzzles & Games")
     st.markdown("Match ratios to triangles or identify quadrants in these fun challenges!")
     
@@ -530,7 +548,7 @@ elif page == "Puzzles & Games":
         correct = sum(1 for i, ratio in enumerate(ratios) if selections[ratio] == triangles[answers[i]])
         st.markdown(f"You got {correct}/{len(ratios)} correct!")
 
-elif page == "Spinner & Sketcher":
+elif st.session_state.page == "Spinner & Sketcher":
     st.header("Paper Plate Spinner & Angle Sketcher")
     st.markdown("Spin the wheel to get a random angle, then sketch it in standard position.")
     
@@ -560,7 +578,7 @@ elif page == "Spinner & Sketcher":
         else:
             st.error("Try again!")
 
-elif page == "Radian Crafts":
+elif st.session_state.page == "Radian Crafts":
     st.header("Radian Exploration with Arts and Crafts")
     st.markdown("Arrange sectors to form a circle and visualize radians.")
     
@@ -589,7 +607,7 @@ elif page == "Radian Crafts":
         pdf_buffer.seek(0)
         st.download_button("Download Craft PDF", pdf_buffer, "radian_craft.pdf", "application/pdf")
 
-elif page == "Motion & Waves":
+elif st.session_state.page == "Motion & Waves":
     st.header("Projectile Motion & Wave Animations")
     st.markdown("Adjust parameters to see how trig models motion and waves.")
     
