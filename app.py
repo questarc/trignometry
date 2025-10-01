@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Import only basic, likely existing page functions to avoid ModuleNotFoundError
+# Import trig page functions
 from pages.trig_encyclopedia import show_trig_encyclopedia
 from pages.trig_calculator import show_trig_calculator
 from pages.trig_quiz import show_trig_quiz
@@ -36,7 +36,7 @@ for icon_label, category in categories.items():
         elif category != "Trigonometry":
             st.session_state.pop('trig_page', None)  # Clear trig_page when not in Trigonometry
 
-# Simplified Trigonometry Sub-Navigation (only basic pages to avoid errors)
+# Trigonometry Sub-Navigation
 if st.session_state.category == "Trigonometry":
     st.sidebar.header("Trigonometry Tools")
     trig_pages = {
